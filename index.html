@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+  <!-- Tiêu đề trang -->
+  <title>Chesino</title>
+
+  <!-- Bộ giải mã và phân loại thiết bị -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <!-- Đảm bảo đặt meta tag sau -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <!-- Biểu tượng cho web -->
+  <link rel="icon" href="/DATA/Logo/logo.png">
+
+  <!-- Biểu tượng iPhone -->
+  <link rel="apple-touch-icon" href="/DATA/Logo/logo.png" sizes="150x150">
+
+  <!-- CSS của web -->
+  <link rel="stylesheet" href="./Data/style.css">
+  <script src="https://kit.fontawesome.com/9392097706.js" crossorigin="anonymous"></script>
+
+</head>
+
+
+
+<body>
+  <div class="VideoBG" id="VideoBG">
+    <video autoplay loop muted playsinline class="video-background ">
+      <source src="./Data/VideoBG/Jinx.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <audio id="myAudio">
+    <source src="https://drive.google.com/uc?export=download&id=13kYJdgKjxJBj_6VsoUU0KOuB2RT-UF0a" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="Menu">
+    <div class="Icon" id="toggleMusic" onclick="toggleMusic()">
+      <i class="fa-solid fa-music"></i>
+    </div>
+    <div class="Icon" onclick="toggleContent()">
+      <i class="fa-solid fa-eye"></i>
+    </div>
+    <div class="Icon" onclick="toggleVideo()">
+      <i class="fa-solid fa-video-slash"></i>
+    </div>
+    <a href="https://www.m.me/ChesinoPage/" target="_blank">
+      <div class="Icon">
+        <i class="fa-brands fa-facebook-messenger"></i>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="Container">
+    <div class="BoxSearch">
+      <div class="search">
+        <input type="text" id="search-input" placeholder="Tìm kiếm">
+        <button id="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </div>
+
+      <div class="filter">
+        <div class="radio-group">
+          <input type="radio" id="all" name="category" value="" checked>
+          <label for="all">Tất cả</label>
+
+          <input type="radio" id="tweak" name="category" value="Tweak">
+          <label for="tweak"><i class="fa-solid fa-cube"></i> Tweak</label>
+
+          <input type="radio" id="ipa" name="category" value="iPA">
+          <label for="ipa"><i class="fa-brands fa-app-store-ios"></i> iPA</label>
+
+          <input type="radio" id="link" name="category" value="Link">
+          <label for="link"><i class="fa-solid fa-link"></i> Link</label>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="no-data" id="loading-message"> 
+      <img style="width: 100%;" src="./Data/meme.gif" alt="meme">
+      Đang tải...
+    </div>
+    <div class="app-list">
+
+    </div>
+
+  </div>
+
+
+</body>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="./Data/app.js"></script>
+<script src="./Data/file.js"></script>
+
+
+</html>
