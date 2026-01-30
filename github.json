@@ -1,0 +1,53 @@
+{
+  "users": [
+    {
+      "id": "admin-001",
+      "name": "Admin",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "role": "admin",
+      "avatarUrl": "",
+      "bio": "Quản trị viên hệ thống",
+      "displayName": "Admin",
+      "createdAt": "2023-01-01T00:00:00.000Z",
+      "isAdmin": true
+    },
+    {
+      "id": "user-001",
+      "name": "Người dùng mẫu",
+      "email": "user@example.com",
+      "password": "user123",
+      "role": "member",
+      "avatarUrl": "",
+      "bio": "Thành viên mới",
+      "displayName": "Người dùng mẫu",
+      "createdAt": "2023-01-02T00:00:00.000Z",
+      "isAdmin": false
+    }
+  ],
+  "posts": [
+    {
+      "id": "post-001",
+      "title": "Chào mừng đến với diễn đàn!",
+      "content": "Đây là bài viết đầu tiên. Hãy chia sẻ kiến thức về dịch game Renpy và RPG Maker!",
+      "imageUrl": "",
+      "authorId": "admin-001",
+      "authorName": "Admin",
+      "authorAvatar": "",
+      "createdAt": "2023-01-01T10:00:00.000Z",
+      "comments": [
+        {
+          "id": "comment-001",
+          "authorId": "user-001",
+          "authorName": "Người dùng mẫu",
+          "authorAvatar": "",
+          "content": "Bài viết rất hay!",
+          "createdAt": "2023-01-01T11:00:00.000Z"
+        }
+      ],
+      "deleteRequest": null
+    }
+  ],
+  "contacts": [],
+  "deleteRequests": []
+}
