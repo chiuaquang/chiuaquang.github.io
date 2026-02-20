@@ -1,104 +1,707 @@
 <!DOCTYPE html>
-<html>
-
-
+<html lang="vi">
 <head>
-  <!-- Tiêu đề trang -->
-  <title>Chesino</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeHay - Xem anime Vietsub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
 
-  <!-- Bộ giải mã và phân loại thiết bị -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+        body {
+            background-color: #0a0b0f;
+            color: #fff;
+        }
 
-  <!-- Đảm bảo đặt meta tag sau -->
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-capable" content="yes">
+        .header {
+            background: linear-gradient(135deg, #1a1c24, #0f1117);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 1px solid #2a2c35;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-  <!-- Biểu tượng cho web -->
-  <link rel="icon" href="/DATA/Logo/logo.png">
+        .menu-icon {
+            font-size: 24px;
+            color: #ff6b6b;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: #2a2c35;
+        }
 
-  <!-- Biểu tượng iPhone -->
-  <link rel="apple-touch-icon" href="/DATA/Logo/logo.png" sizes="150x150">
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #ff6b6b;
+            text-decoration: none;
+        }
 
-  <!-- CSS của web -->
-  <link rel="stylesheet" href="./Data/style.css">
-  <script src="https://kit.fontawesome.com/9392097706.js" crossorigin="anonymous"></script>
+        .search-box {
+            flex: 1;
+            max-width: 400px;
+            margin-left: auto;
+        }
 
+        .search-box input {
+            width: 100%;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            background: #2a2c35;
+            color: #fff;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-box input::placeholder {
+            color: #6b6f7c;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: -280px;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: #1a1c24;
+            z-index: 1000;
+            transition: left 0.3s ease;
+            border-right: 1px solid #2a2c35;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 999;
+            display: none;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #2a2c35;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-header h3 {
+            color: #ff6b6b;
+            font-size: 18px;
+        }
+
+        .close-sidebar {
+            font-size: 24px;
+            color: #8b8f9c;
+            cursor: pointer;
+        }
+
+        .sidebar-menu {
+            padding: 20px;
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 12px 15px;
+            color: #b4b9d6;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: 0.3s;
+            background: #2a2c35;
+        }
+
+        .sidebar-menu a:hover {
+            background: #ff6b6b;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            padding: 5px 0;
+            scrollbar-width: none;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filters::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-btn {
+            padding: 10px 25px;
+            border: 1px solid #2a2c35;
+            background: transparent;
+            color: #b4b9d6;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #ff6b6b;
+            color: #fff;
+            border-color: #ff6b6b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.3);
+        }
+
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .anime-card {
+            background: #1a1c24;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #2a2c35;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .anime-card:hover {
+            transform: translateY(-8px);
+            border-color: #ff6b6b;
+            box-shadow: 0 10px 25px rgba(255,107,107,0.2);
+        }
+
+        .anime-poster {
+            position: relative;
+            aspect-ratio: 2/3;
+            overflow: hidden;
+        }
+
+        .anime-poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .anime-card:hover .anime-poster img {
+            transform: scale(1.1);
+        }
+
+        .anime-overlay {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .rating {
+            background: rgba(0,0,0,0.85);
+            padding: 6px 12px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #ffd700;
+            border: 1px solid #ffd70040;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .episode {
+            background: #ff6b6b;
+            padding: 6px 12px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(255,107,107,0.4);
+            border: 1px solid #ffffff30;
+        }
+
+        .anime-info {
+            padding: 15px;
+        }
+
+        .anime-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #fff;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .anime-subtitle {
+            font-size: 12px;
+            color: #ff6b6b;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-style: italic;
+        }
+
+        .anime-genre {
+            font-size: 11px;
+            color: #8b8f9c;
+            display: inline-block;
+            padding: 3px 10px;
+            background: #2a2c35;
+            border-radius: 20px;
+        }
+
+        /* Phân trang */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin: 40px 0 20px;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            min-width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 12px;
+            background: #1a1c24;
+            border: 1px solid #2a2c35;
+            border-radius: 10px;
+            color: #b4b9d6;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-btn:hover {
+            background: #2a2c35;
+            color: #fff;
+            border-color: #ff6b6b;
+            transform: translateY(-2px);
+        }
+
+        .page-btn.active {
+            background: #ff6b6b;
+            color: #fff;
+            border-color: #ff6b6b;
+            box-shadow: 0 5px 15px rgba(255,107,107,0.3);
+        }
+
+        .page-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .page-dots {
+            color: #b4b9d6;
+            padding: 0 5px;
+        }
+
+        .page-info {
+            color: #8b8f9c;
+            font-size: 14px;
+            margin-left: 15px;
+            padding-left: 15px;
+            border-left: 1px solid #2a2c35;
+        }
+
+        .loading {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px;
+            color: #8b8f9c;
+            font-size: 16px;
+        }
+
+        .loading::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 50px;
+            margin: 25px auto;
+            border: 4px solid #2a2c35;
+            border-top-color: #ff6b6b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .admin-link {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            opacity: 0.15;
+            font-size: 12px;
+            z-index: 999;
+            transition: opacity 0.3s;
+        }
+        
+        .admin-link:hover {
+            opacity: 0.8;
+        }
+        
+        .admin-link a {
+            color: #fff;
+            text-decoration: none;
+            background: #2a2c35;
+            padding: 8px 12px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 10px 15px;
+            }
+            
+            .logo {
+                font-size: 18px;
+            }
+            
+            .search-box {
+                max-width: 200px;
+            }
+            
+            .anime-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 15px;
+            }
+            
+            .filters {
+                gap: 8px;
+            }
+            
+            .filter-btn {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+            
+            .pagination {
+                gap: 5px;
+            }
+            
+            .page-btn {
+                min-width: 35px;
+                height: 35px;
+                font-size: 13px;
+                padding: 0 8px;
+            }
+            
+            .page-info {
+                display: none;
+            }
+        }
+    </style>
 </head>
-
-
-
 <body>
-  <div class="VideoBG" id="VideoBG">
-    <video autoplay loop muted playsinline class="video-background ">
-      <source src="./Data/VideoBG/Jinx.mp4" type="video/mp4">
-    </video>
-  </div>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-  <audio id="myAudio">
-    <source src="https://drive.google.com/uc?export=download&id=13kYJdgKjxJBj_6VsoUU0KOuB2RT-UF0a" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-
-  <div class="Menu">
-    <div class="Icon" id="toggleMusic" onclick="toggleMusic()">
-      <i class="fa-solid fa-music"></i>
-    </div>
-    <div class="Icon" onclick="toggleContent()">
-      <i class="fa-solid fa-eye"></i>
-    </div>
-    <div class="Icon" onclick="toggleVideo()">
-      <i class="fa-solid fa-video-slash"></i>
-    </div>
-    <a href="https://www.m.me/ChesinoPage/" target="_blank">
-      <div class="Icon">
-        <i class="fa-brands fa-facebook-messenger"></i>
-      </div>
-    </a>
-
-  </div>
-
-  <div class="Container">
-    <div class="BoxSearch">
-      <div class="search">
-        <input type="text" id="search-input" placeholder="Tìm kiếm">
-        <button id="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
-      </div>
-
-      <div class="filter">
-        <div class="radio-group">
-          <input type="radio" id="all" name="category" value="" checked>
-          <label for="all">Tất cả</label>
-
-          <input type="radio" id="tweak" name="category" value="Tweak">
-          <label for="tweak"><i class="fa-solid fa-cube"></i> Tweak</label>
-
-          <input type="radio" id="ipa" name="category" value="iPA">
-          <label for="ipa"><i class="fa-brands fa-app-store-ios"></i> iPA</label>
-
-          <input type="radio" id="link" name="category" value="Link">
-          <label for="link"><i class="fa-solid fa-link"></i> Link</label>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>🍜 AnimeHay</h3>
+            <span class="close-sidebar" onclick="toggleSidebar()">✕</span>
         </div>
-      </div>
-
-
+        <ul class="sidebar-menu">
+            <li><a href="#" onclick="filterAnime('all'); toggleSidebar()">🏠 Tất cả</a></li>
+            <li><a href="#" onclick="filterAnime('Anime mới'); toggleSidebar()">🆕 Anime mới</a></li>
+            <li><a href="#" onclick="filterAnime('Anime bộ'); toggleSidebar()">📺 Anime bộ</a></li>
+            <li><a href="#" onclick="filterAnime('Anime lẻ'); toggleSidebar()">🎬 Anime lẻ</a></li>
+            <li><a href="#" onclick="filterAnime('HH Trung Quốc'); toggleSidebar()">🇨🇳 HH Trung Quốc</a></li>
+        </ul>
     </div>
 
-    <div class="no-data" id="loading-message"> 
-      <img style="width: 100%;" src="./Data/meme.gif" alt="meme">
-      Đang tải...
+    <header class="header">
+        <div class="menu-icon" onclick="toggleSidebar()">☰</div>
+        <a href="#" class="logo">AnimeHay</a>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 Tìm anime..." onkeyup="searchAnime()">
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="filters" id="filterContainer">
+            <button class="filter-btn active" onclick="filterAnime('all')">Tất cả</button>
+            <button class="filter-btn" onclick="filterAnime('Anime mới')">🆕 Anime mới</button>
+            <button class="filter-btn" onclick="filterAnime('Anime bộ')">📺 Anime bộ</button>
+            <button class="filter-btn" onclick="filterAnime('Anime lẻ')">🎬 Anime lẻ</button>
+            <button class="filter-btn" onclick="filterAnime('HH Trung Quốc')">🇨🇳 HH Trung Quốc</button>
+        </div>
+
+        <div class="anime-grid" id="animeGrid">
+            <div class="loading">Đang tải dữ liệu...</div>
+        </div>
+
+        <!-- Phân trang -->
+        <div class="pagination" id="pagination"></div>
     </div>
-    <div class="app-list">
 
+    <!-- Link ẩn vào trang quản lý -->
+    <div class="admin-link">
+        <a href="quanly.html" target="_blank">
+            <span>⚙️</span> Admin
+        </a>
     </div>
 
-  </div>
+    <script>
+        // URL data.json trên GitHub của bạn
+        const GITHUB_JSON_URL = 'https://raw.githubusercontent.com/chiuaquang/animeavadex.github.io/refs/heads/main/data.json';
+        
+        let animeData = [];
+        let currentFilter = 'all';
+        let currentPage = 1;
+        const ITEMS_PER_PAGE = 20; // Số anime mỗi trang
 
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+        }
 
+        async function loadAnimeData() {
+            try {
+                const response = await fetch(GITHUB_JSON_URL);
+                if (!response.ok) throw new Error('Không thể tải dữ liệu');
+                const data = await response.json();
+                animeData = data.animeList;
+                
+                // Sắp xếp anime theo ID giảm dần (mới nhất lên đầu)
+                animeData.sort((a, b) => b.id - a.id);
+                
+                displayAnime(animeData);
+            } catch (error) {
+                console.error('Lỗi:', error);
+                document.getElementById('animeGrid').innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #ff6b6b;">
+                        <div style="font-size: 48px; margin-bottom: 20px;">😵</div>
+                        <div style="font-size: 20px; margin-bottom: 10px;">Không thể tải dữ liệu</div>
+                        <small style="color: #8b8f9c;">Vui lòng thử lại sau</small>
+                    </div>
+                `;
+            }
+        }
+
+        function displayAnime(animeList) {
+            // Lưu toàn bộ danh sách đã lọc
+            window.filteredAnime = animeList;
+            
+            // Tính toán phân trang
+            const totalItems = animeList.length;
+            const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+            
+            // Đảm bảo currentPage không vượt quá totalPages
+            if (currentPage > totalPages) {
+                currentPage = totalPages || 1;
+            }
+            
+            // Lấy anime cho trang hiện tại
+            const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+            const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
+            const currentAnime = animeList.slice(startIndex, endIndex);
+            
+            // Hiển thị grid anime
+            const grid = document.getElementById('animeGrid');
+            
+            if (!animeList || animeList.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #8b8f9c;">Không có anime nào</div>';
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+
+            grid.innerHTML = currentAnime.map(anime => {
+                const episodeCount = Object.keys(anime.episodes || {}).length;
+                const latestEpisode = episodeCount;
+                
+                return `
+                    <div class="anime-card" onclick="goToAnime(${anime.id})">
+                        <div class="anime-poster">
+                            <img src="${anime.image}" alt="${anime.title}" onerror="this.src='https://via.placeholder.com/300x450/2a2c35/ffffff?text=No+Image'">
+                            <div class="anime-overlay">
+                                <span class="rating">★ ${anime.rating}</span>
+                                <span class="episode">TẬP ${latestEpisode}</span>
+                            </div>
+                        </div>
+                        <div class="anime-info">
+                            <div class="anime-title">${anime.title}</div>
+                            ${anime.altTitle ? `<div class="anime-subtitle">${anime.altTitle}</div>` : ''}
+                            <div class="anime-genre">${anime.genre}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Hiển thị phân trang
+            displayPagination(totalPages, totalItems);
+        }
+
+        function displayPagination(totalPages, totalItems) {
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let html = '';
+            
+            // Nút Trang đầu
+            html += `<button class="page-btn ${currentPage === 1 ? 'disabled' : ''}" onclick="changePage(1)" ${currentPage === 1 ? 'disabled' : ''}>««</button>`;
+            
+            // Nút Trang trước
+            html += `<button class="page-btn ${currentPage === 1 ? 'disabled' : ''}" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>«</button>`;
+            
+            // Hiển thị các số trang
+            const maxVisiblePages = 5; // Số trang hiển thị tối đa
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            // Thêm dấu ... nếu cần
+            if (startPage > 1) {
+                html += `<span class="page-dots">...</span>`;
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+            }
+            
+            if (endPage < totalPages) {
+                html += `<span class="page-dots">...</span>`;
+            }
+            
+            // Nút Trang sau
+            html += `<button class="page-btn ${currentPage === totalPages ? 'disabled' : ''}" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>»</button>`;
+            
+            // Nút Trang cuối
+            html += `<button class="page-btn ${currentPage === totalPages ? 'disabled' : ''}" onclick="changePage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>»»</button>`;
+            
+            // Thông tin tổng số
+            html += `<span class="page-info">Trang ${currentPage} / ${totalPages} (${totalItems} anime)</span>`;
+            
+            pagination.innerHTML = html;
+        }
+
+        function changePage(page) {
+            const totalPages = Math.ceil(window.filteredAnime.length / ITEMS_PER_PAGE);
+            if (page < 1 || page > totalPages) return;
+            
+            currentPage = page;
+            displayAnime(window.filteredAnime);
+            
+            // Cuộc lên đầu grid
+            document.querySelector('.anime-grid').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function filterAnime(genre) {
+            currentFilter = genre;
+            currentPage = 1; // Reset về trang đầu khi lọc
+            
+            // Cập nhật active state cho các nút filter
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (genre === 'all' && btn.textContent.includes('Tất cả')) {
+                    btn.classList.add('active');
+                } else if (btn.textContent.includes(genre)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            let filteredAnime = [];
+            
+            if (genre === 'all') {
+                filteredAnime = [...animeData];
+            } else {
+                filteredAnime = animeData.filter(anime => anime.genre === genre);
+            }
+            
+            // Giữ nguyên thứ tự sắp xếp (mới nhất lên đầu)
+            displayAnime(filteredAnime);
+        }
+
+        function searchAnime() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            currentPage = 1; // Reset về trang đầu khi tìm kiếm
+            
+            if (!searchTerm) {
+                filterAnime(currentFilter);
+                return;
+            }
+
+            const filtered = animeData.filter(anime => 
+                anime.title.toLowerCase().includes(searchTerm) ||
+                (anime.altTitle && anime.altTitle.toLowerCase().includes(searchTerm)) ||
+                (anime.genre && anime.genre.toLowerCase().includes(searchTerm))
+            );
+            
+            // Giữ nguyên thứ tự sắp xếp
+            displayAnime(filtered);
+        }
+
+        function goToAnime(animeId) {
+            // Lưu toàn bộ dữ liệu vào localStorage để trang player có thể dùng
+            localStorage.setItem('animeData', JSON.stringify(animeData));
+            localStorage.setItem('animeId', animeId);
+            window.location.href = 'player.html';
+        }
+
+        // Khởi tạo
+        window.onload = loadAnimeData;
+    </script>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="./Data/app.js"></script>
-<script src="./Data/file.js"></script>
-
-
 </html>
