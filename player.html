@@ -3,216 +3,575 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnimeHay - Xem phim</title>
+    <title>AnimeHay - Xem anime Vietsub chất lượng cao</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-            background-color: #0a0b0f;
+            background-color: #0f0f14;
             color: #fff;
+            transition: background-color 0.3s, color 0.3s;
         }
 
+        body.light-mode {
+            background-color: #f5f5f7;
+            color: #1a1c28;
+        }
+
+        /* Header */
         .header {
-            background: #1a1c24;
-            padding: 15px 20px;
+            background: linear-gradient(135deg, #1a1c28 0%, #0f1117 100%);
+            padding: 15px 30px;
             display: flex;
             align-items: center;
             gap: 20px;
-            border-bottom: 1px solid #2a2c35;
+            border-bottom: 2px solid #ff6b6b;
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: background 0.3s;
         }
 
-        .back-btn {
-            color: #b4b9d6;
-            text-decoration: none;
-            padding: 8px 20px;
-            background: #2a2c35;
-            border-radius: 25px;
-            font-size: 14px;
-            transition: 0.3s;
+        body.light-mode .header {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            border-bottom-color: #ff6b6b;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            color: #ff6b6b;
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
-            gap: 5px;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(255,107,107,0.1);
+            transition: all 0.3s;
         }
 
-        .back-btn:hover {
+        .menu-icon:hover {
             background: #ff6b6b;
             color: #fff;
+            transform: rotate(90deg);
         }
 
         .logo {
-            color: #ff6b6b;
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b6b, #ffb347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-decoration: none;
+            letter-spacing: 1px;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 20px auto;
-            padding: 0 15px;
-        }
-
-        .video-section {
-            background: #000;
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            border: 1px solid #2a2c35;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .video-wrapper {
+        .search-box {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 20px;
             position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            background: #000;
         }
 
-        .video-wrapper iframe {
+        .search-box input {
+            width: 100%;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            background: #2a2f42;
+            color: #fff;
+            outline: none;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        body.light-mode .search-box input {
+            background: #e0e0e0;
+            color: #1a1c28;
+        }
+
+        .search-box input:focus {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 20px rgba(255,107,107,0.3);
+        }
+
+        .search-box button {
             position: absolute;
+            right: 5px;
+            top: 5px;
+            background: #ff6b6b;
+            border: none;
+            padding: 7px 20px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .search-box button:hover {
+            background: #ff5252;
+            transform: scale(0.95);
+        }
+
+        .theme-toggle {
+            background: #2a2f42;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 20px;
+        }
+
+        body.light-mode .theme-toggle {
+            background: #e0e0e0;
+        }
+
+        .theme-toggle:hover {
+            background: #ff6b6b;
+            transform: rotate(180deg);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: -320px;
             top: 0;
+            width: 300px;
+            height: 100vh;
+            background: #1a1c28;
+            z-index: 1001;
+            transition: left 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-right: 2px solid #ff6b6b;
+            box-shadow: 5px 0 30px rgba(0,0,0,0.5);
+            overflow-y: auto;
+        }
+
+        body.light-mode .sidebar {
+            background: #ffffff;
+            border-right-color: #ff6b6b;
+        }
+
+        .sidebar.active {
             left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            border: none;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            display: none;
+            backdrop-filter: blur(5px);
         }
 
-        .video-info {
-            background: #1a1c24;
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .sidebar-header {
+            padding: 25px;
+            border-bottom: 2px solid #ff6b6b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-header h3 {
+            color: #ff6b6b;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .close-sidebar {
+            font-size: 28px;
+            cursor: pointer;
+            color: #b4b9d6;
+            transition: color 0.3s;
+        }
+
+        body.light-mode .close-sidebar {
+            color: #666;
+        }
+
+        .close-sidebar:hover {
+            color: #ff6b6b;
+        }
+
+        .sidebar-menu {
             padding: 20px;
-            border-top: 1px solid #2a2c35;
+            list-style: none;
         }
 
-        .video-info h1 {
-            font-size: 1.6em;
-            color: #ff6b6b;
-            margin-bottom: 5px;
+        .sidebar-menu li {
+            margin-bottom: 10px;
         }
 
-        .video-info .alt-title {
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
             color: #b4b9d6;
-            font-size: 15px;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s;
+            background: #2a2f42;
+            border: 1px solid transparent;
+        }
+
+        body.light-mode .sidebar-menu a {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .sidebar-menu a:hover {
+            background: #ff6b6b;
+            color: #fff;
+            transform: translateX(10px);
+            border-color: #fff;
+        }
+
+        .sidebar-menu a i {
+            font-size: 20px;
+        }
+
+        /* Main content */
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 25px;
+        }
+
+        /* Hero banner */
+        .hero-banner {
+            background: linear-gradient(135deg, #ff6b6b20, #ffb34720);
+            border-radius: 30px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 2px solid #ff6b6b;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, #ff6b6b20 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-banner h1 {
+            font-size: 3em;
             margin-bottom: 15px;
-            font-style: italic;
+            background: linear-gradient(135deg, #fff, #ffb347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 1;
         }
 
-        .video-meta {
-            display: flex;
-            gap: 20px;
+        .hero-banner p {
             color: #b4b9d6;
-            font-size: 14px;
-            flex-wrap: wrap;
-            padding: 10px 0;
-            border-top: 1px solid #2a2c35;
-            border-bottom: 1px solid #2a2c35;
+            font-size: 1.2em;
+            position: relative;
+            z-index: 1;
         }
 
-        .video-meta span {
+        /* Filters */
+        .filters {
             display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .anime-description {
-            background: #1a1c24;
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border: 1px solid #2a2c35;
-        }
-
-        .anime-description h3 {
-            color: #ff6b6b;
-            margin-bottom: 15px;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .anime-description p {
-            color: #b4b9d6;
-            line-height: 1.8;
-            font-size: 15px;
-            white-space: pre-line;
-        }
-
-        .episodes-section {
-            background: #1a1c24;
-            border-radius: 16px;
-            padding: 25px;
-            border: 1px solid #2a2c35;
-            margin-bottom: 30px;
-        }
-
-        .section-title {
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #2a2c35;
-            color: #ff6b6b;
-            font-size: 18px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .episodes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
             gap: 12px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .episode-btn {
-            background: #2a2c35;
-            border: none;
-            padding: 15px 5px;
-            border-radius: 10px;
+        .filter-btn {
+            padding: 12px 30px;
+            border: 2px solid #2a2c35;
+            background: transparent;
             color: #b4b9d6;
+            border-radius: 40px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.3s;
-            border: 1px solid #3a3e4a;
-            font-size: 14px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .episode-btn:hover {
+        body.light-mode .filter-btn {
+            border-color: #ddd;
+            color: #666;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
             background: #ff6b6b;
             color: #fff;
             border-color: #ff6b6b;
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+            box-shadow: 0 10px 25px rgba(255,107,107,0.4);
         }
 
-        .episode-btn.active {
+        /* Anime Grid */
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .anime-card {
+            background: #1a1c24;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s;
+            border: 2px solid transparent;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        body.light-mode .anime-card {
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .anime-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: #ff6b6b;
+            box-shadow: 0 20px 40px rgba(255,107,107,0.3);
+        }
+
+        .anime-poster {
+            position: relative;
+            aspect-ratio: 2/3;
+            overflow: hidden;
+        }
+
+        .anime-poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s;
+        }
+
+        .anime-card:hover .anime-poster img {
+            transform: scale(1.15);
+        }
+
+        .anime-overlay {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .rating {
+            background: rgba(0,0,0,0.9);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #ffd700;
+            border: 2px solid #ffd700;
+            backdrop-filter: blur(5px);
+        }
+
+        .episode-badge {
+            background: #ff6b6b;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: bold;
+            border: 2px solid #fff;
+        }
+
+        .part-badge {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: #00b894;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            border: 1px solid #fff;
+        }
+
+        .anime-info {
+            padding: 20px;
+        }
+
+        .anime-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #fff;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        body.light-mode .anime-title {
+            color: #1a1c28;
+        }
+
+        .anime-subtitle {
+            font-size: 13px;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .anime-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #b4b9d6;
+        }
+
+        body.light-mode .anime-meta {
+            color: #666;
+        }
+
+        .parts-count {
+            background: #2a2f42;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 50px 0 30px;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            min-width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 15px;
+            background: #1a1c24;
+            border: 2px solid #2a2c35;
+            border-radius: 12px;
+            color: #b4b9d6;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        body.light-mode .page-btn {
+            background: #ffffff;
+            border-color: #ddd;
+            color: #666;
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
             background: #ff6b6b;
             color: #fff;
             border-color: #ff6b6b;
-            box-shadow: 0 0 15px rgba(255,107,107,0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.3);
+        }
+
+        .page-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-info {
+            margin-left: 15px;
+            padding-left: 15px;
+            border-left: 2px solid #2a2c35;
+            color: #b4b9d6;
+            font-size: 14px;
+        }
+
+        .admin-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            opacity: 0.2;
+            transition: opacity 0.3s;
+            z-index: 99;
+        }
+
+        .admin-link:hover {
+            opacity: 1;
+        }
+
+        .admin-link a {
+            background: #ff6b6b;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 40px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            box-shadow: 0 5px 20px rgba(255,107,107,0.4);
         }
 
         .loading {
+            grid-column: 1/-1;
             text-align: center;
-            padding: 60px;
-            color: #8b8f9c;
+            padding: 80px;
+            color: #b4b9d6;
+            font-size: 18px;
         }
 
         .loading::after {
             content: '';
             display: block;
-            width: 50px;
-            height: 50px;
-            margin: 20px auto;
-            border: 4px solid #2a2c35;
+            width: 60px;
+            height: 60px;
+            margin: 30px auto;
+            border: 5px solid #2a2c35;
             border-top-color: #ff6b6b;
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -222,187 +581,278 @@
             to { transform: rotate(360deg); }
         }
 
-        .error-message {
-            text-align: center;
-            padding: 60px;
-            color: #ff6b6b;
-            font-size: 18px;
-        }
-
-        .tag-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 15px 0;
-        }
-
-        .tag {
-            background: #2a2c35;
-            color: #b4b9d6;
-            padding: 5px 15px;
-            border-radius: 25px;
-            font-size: 12px;
-            border: 1px solid #3a3e4a;
-        }
-
-        .tag:hover {
-            background: #ff6b6b;
-            color: #fff;
-        }
-
         @media (max-width: 768px) {
             .header {
                 padding: 10px 15px;
             }
             
-            .video-info h1 {
-                font-size: 1.3em;
+            .logo {
+                font-size: 20px;
             }
             
-            .episodes-grid {
-                grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            .search-box {
+                display: none;
             }
             
-            .episode-btn {
-                padding: 12px 3px;
-                font-size: 13px;
+            .hero-banner {
+                padding: 25px;
             }
             
-            .video-meta {
-                gap: 12px;
-                font-size: 13px;
+            .hero-banner h1 {
+                font-size: 2em;
+            }
+            
+            .anime-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
             }
         }
     </style>
 </head>
 <body>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>🍜 AnimeHay</h3>
+            <span class="close-sidebar" onclick="toggleSidebar()">✕</span>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#" onclick="filterAnime('all'); toggleSidebar()"><i>🏠</i> Tất cả</a></li>
+            <li><a href="#" onclick="filterAnime('Anime mới'); toggleSidebar()"><i>🆕</i> Anime mới</a></li>
+            <li><a href="#" onclick="filterAnime('Anime bộ'); toggleSidebar()"><i>📺</i> Anime bộ</a></li>
+            <li><a href="#" onclick="filterAnime('Anime lẻ'); toggleSidebar()"><i>🎬</i> Anime lẻ</a></li>
+            <li><a href="#" onclick="filterAnime('HH Trung Quốc'); toggleSidebar()"><i>🇨🇳</i> HH Trung Quốc</a></li>
+        </ul>
+    </div>
+
     <header class="header">
-        <a href="index.html" class="back-btn">
-            <span>←</span> Quay lại
-        </a>
-        <a href="index.html" class="logo">AnimeHay</a>
+        <div class="menu-icon" onclick="toggleSidebar()">☰</div>
+        <a href="#" class="logo">AnimeHay</a>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 Tìm anime, thể loại..." onkeyup="searchAnime()">
+            <button onclick="searchAnime()">Tìm</button>
+        </div>
+        <div class="theme-toggle" onclick="toggleTheme()" id="themeToggle">🌙</div>
     </header>
 
     <div class="container">
-        <div class="video-section" id="videoSection">
-            <div class="loading">Đang tải nội dung...</div>
+        <div class="hero-banner">
+            <h1>🎬 AnimeHay - Kho anime chất lượng cao</h1>
+            <p>Xem anime Vietsub miễn phí, đa dạng thể loại, cập nhật mỗi ngày</p>
         </div>
-        
-        <div class="anime-description" id="descriptionSection" style="display: none;">
-            <h3>📖 NỘI DUNG</h3>
-            <p id="animeDescription"></p>
-            <div class="tag-container" id="tagContainer"></div>
+
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterAnime('all')">
+                <span>🏠</span> Tất cả
+            </button>
+            <button class="filter-btn" onclick="filterAnime('Anime mới')">
+                <span>🆕</span> Anime mới
+            </button>
+            <button class="filter-btn" onclick="filterAnime('Anime bộ')">
+                <span>📺</span> Anime bộ
+            </button>
+            <button class="filter-btn" onclick="filterAnime('Anime lẻ')">
+                <span>🎬</span> Anime lẻ
+            </button>
+            <button class="filter-btn" onclick="filterAnime('HH Trung Quốc')">
+                <span>🇨🇳</span> HH Trung Quốc
+            </button>
         </div>
-        
-        <div class="episodes-section" id="episodesSection"></div>
+
+        <div class="anime-grid" id="animeGrid">
+            <div class="loading">Đang tải dữ liệu...</div>
+        </div>
+
+        <div class="pagination" id="pagination"></div>
+    </div>
+
+    <div class="admin-link">
+        <a href="quanly.html" target="_blank">
+            <span>⚙️</span> Quản lý
+        </a>
     </div>
 
     <script>
-        let currentAnime = null;
-        let currentEpisode = 1;
+        const GITHUB_JSON_URL = 'https://raw.githubusercontent.com/chiuaquang/animeavadex.github.io/refs/heads/main/data.json';
+        
+        let animeData = [];
+        let currentFilter = 'all';
+        let currentPage = 1;
+        const ITEMS_PER_PAGE = 20;
 
-        function loadAnime() {
-            const animeData = JSON.parse(localStorage.getItem('animeData') || '[]');
-            const animeId = parseInt(localStorage.getItem('animeId') || '1');
-            
-            currentAnime = animeData.find(a => a.id === animeId);
-            
-            if (!currentAnime) {
-                document.getElementById('videoSection').innerHTML = `
-                    <div class="error-message">
-                        <div style="font-size: 48px; margin-bottom: 20px;">😵</div>
-                        <div>Không tìm thấy anime!</div>
-                        <div style="margin-top: 20px;">
-                            <a href="index.html" style="color: #ff6b6b; text-decoration: none;">← Về trang chủ</a>
-                        </div>
+        // Theme
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const themeToggle = document.getElementById('themeToggle');
+            if (document.body.classList.contains('light-mode')) {
+                themeToggle.textContent = '☀️';
+            } else {
+                themeToggle.textContent = '🌙';
+            }
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+        }
+
+        async function loadAnimeData() {
+            try {
+                const response = await fetch(GITHUB_JSON_URL);
+                if (!response.ok) throw new Error('Không thể tải dữ liệu');
+                const data = await response.json();
+                animeData = data.animeList;
+                animeData.sort((a, b) => b.id - a.id);
+                displayAnime(animeData);
+            } catch (error) {
+                console.error('Lỗi:', error);
+                document.getElementById('animeGrid').innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 80px;">
+                        <div style="font-size: 64px; margin-bottom: 20px;">😵</div>
+                        <div style="font-size: 20px; color: #ff6b6b;">Không thể tải dữ liệu</div>
+                        <div style="color: #b4b9d6; margin-top: 15px;">Vui lòng thử lại sau</div>
                     </div>
                 `;
+            }
+        }
+
+        function displayAnime(animeList) {
+            window.filteredAnime = animeList;
+            
+            const totalItems = animeList.length;
+            const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+            
+            if (currentPage > totalPages) {
+                currentPage = totalPages || 1;
+            }
+            
+            const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+            const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
+            const currentAnime = animeList.slice(startIndex, endIndex);
+            
+            const grid = document.getElementById('animeGrid');
+            
+            if (!animeList || animeList.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 80px; color: #b4b9d6;">Không có anime nào</div>';
+                document.getElementById('pagination').innerHTML = '';
                 return;
             }
 
-            const episodes = currentAnime.episodes || {};
-            const episodeKeys = Object.keys(episodes).sort((a, b) => parseInt(a) - parseInt(b));
-            currentEpisode = parseInt(episodeKeys[0]) || 1;
-
-            // Hiển thị icon cho thể loại
-            let genreIcon = '';
-            if (currentAnime.genre === 'Anime mới') genreIcon = '🆕 ';
-            else if (currentAnime.genre === 'Anime bộ') genreIcon = '📺 ';
-            else if (currentAnime.genre === 'Anime lẻ') genreIcon = '🎬 ';
-            else if (currentAnime.genre === 'HH Trung Quốc') genreIcon = '🇨🇳 ';
-
-            // Video section
-            document.getElementById('videoSection').innerHTML = `
-                <div class="video-wrapper">
-                    <iframe id="videoPlayer" src="${episodes[currentEpisode] || ''}" 
-                            allowfullscreen 
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-                    </iframe>
-                </div>
-                <div class="video-info">
-                    <h1>${currentAnime.title}</h1>
-                    ${currentAnime.altTitle ? `<div class="alt-title">${currentAnime.altTitle}</div>` : ''}
-                    <div class="video-meta">
-                        <span>⭐ ${currentAnime.rating}</span>
-                        <span>👁️ ${currentAnime.views || '0'} lượt xem</span>
-                        <span>📺 ${episodeKeys.length} tập</span>
-                        <span>${genreIcon}${currentAnime.genre}</span>
-                    </div>
-                </div>
-            `;
-
-            // Description section
-            if (currentAnime.description) {
-                document.getElementById('descriptionSection').style.display = 'block';
-                document.getElementById('animeDescription').textContent = currentAnime.description;
+            grid.innerHTML = currentAnime.map(anime => {
+                const parts = anime.parts || {};
+                const partsCount = Object.keys(parts).length;
+                const firstPart = parts['1'] || {};
+                const episodeCount = Object.keys(firstPart.episodes || {}).length;
                 
-                // Hiển thị tags nếu có
-                if (currentAnime.tags && currentAnime.tags.length > 0) {
-                    const tagContainer = document.getElementById('tagContainer');
-                    tagContainer.innerHTML = currentAnime.tags.map(tag => 
-                        `<span class="tag">#${tag}</span>`
-                    ).join('');
-                }
-            }
-
-            // Episodes section
-            let episodesHtml = '';
-            episodeKeys.forEach(ep => {
-                episodesHtml += `
-                    <button class="episode-btn ${parseInt(ep) === currentEpisode ? 'active' : ''}" 
-                            onclick="playEpisode(${ep})">
-                        ${ep}
-                    </button>
+                return `
+                    <div class="anime-card" onclick="goToAnime(${anime.id})">
+                        <div class="anime-poster">
+                            <img src="${anime.image}" alt="${anime.title}" onerror="this.src='https://via.placeholder.com/300x450/2a2c35/ffffff?text=No+Image'">
+                            <div class="anime-overlay">
+                                <span class="rating">★ ${anime.rating}</span>
+                                <span class="episode-badge">${episodeCount} tập</span>
+                            </div>
+                            ${partsCount > 1 ? `<span class="part-badge">${partsCount} phần</span>` : ''}
+                        </div>
+                        <div class="anime-info">
+                            <div class="anime-title">${anime.title}</div>
+                            ${anime.altTitle ? `<div class="anime-subtitle">${anime.altTitle}</div>` : ''}
+                            <div class="anime-meta">
+                                <span>👁️ ${anime.views}</span>
+                                <span class="parts-count">${partsCount} phần</span>
+                            </div>
+                        </div>
+                    </div>
                 `;
-            });
-
-            document.getElementById('episodesSection').innerHTML = `
-                <div class="section-title">
-                    <span>📺</span> DANH SÁCH TẬP (${episodeKeys.length} tập)
-                </div>
-                <div class="episodes-grid">
-                    ${episodesHtml}
-                </div>
-            `;
+            }).join('');
+            
+            displayPagination(totalPages, totalItems);
         }
 
-        function playEpisode(episode) {
-            currentEpisode = episode;
-            const player = document.getElementById('videoPlayer');
-            if (player && currentAnime.episodes[episode]) {
-                player.src = currentAnime.episodes[episode];
+        function displayPagination(totalPages, totalItems) {
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
             }
             
-            document.querySelectorAll('.episode-btn').forEach(btn => {
+            let html = '';
+            
+            html += `<button class="page-btn ${currentPage === 1 ? 'disabled' : ''}" onclick="changePage(1)">««</button>`;
+            html += `<button class="page-btn ${currentPage === 1 ? 'disabled' : ''}" onclick="changePage(${currentPage - 1})">«</button>`;
+            
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + 4);
+            
+            if (endPage - startPage < 4) {
+                startPage = Math.max(1, endPage - 4);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+            }
+            
+            html += `<button class="page-btn ${currentPage === totalPages ? 'disabled' : ''}" onclick="changePage(${currentPage + 1})">»</button>`;
+            html += `<button class="page-btn ${currentPage === totalPages ? 'disabled' : ''}" onclick="changePage(${totalPages})">»»</button>`;
+            
+            html += `<span class="page-info">Trang ${currentPage} / ${totalPages} • ${totalItems} anime</span>`;
+            
+            pagination.innerHTML = html;
+        }
+
+        function changePage(page) {
+            const totalPages = Math.ceil(window.filteredAnime.length / ITEMS_PER_PAGE);
+            if (page < 1 || page > totalPages) return;
+            
+            currentPage = page;
+            displayAnime(window.filteredAnime);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function filterAnime(genre) {
+            currentFilter = genre;
+            currentPage = 1;
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
-                if (parseInt(btn.textContent) === episode) {
+                if (genre === 'all' && btn.textContent.includes('Tất cả')) {
+                    btn.classList.add('active');
+                } else if (btn.textContent.includes(genre)) {
                     btn.classList.add('active');
                 }
             });
+
+            let filteredAnime = genre === 'all' ? [...animeData] : animeData.filter(a => a.genre === genre);
+            displayAnime(filteredAnime);
         }
 
-        window.onload = loadAnime;
+        function searchAnime() {
+            const term = document.getElementById('searchInput').value.toLowerCase().trim();
+            currentPage = 1;
+            
+            if (!term) {
+                filterAnime(currentFilter);
+                return;
+            }
+
+            const filtered = animeData.filter(anime => 
+                anime.title.toLowerCase().includes(term) ||
+                (anime.altTitle && anime.altTitle.toLowerCase().includes(term)) ||
+                (anime.tags && anime.tags.some(tag => tag.toLowerCase().includes(term)))
+            );
+            
+            displayAnime(filtered);
+        }
+
+        function goToAnime(animeId) {
+            localStorage.setItem('animeData', JSON.stringify(animeData));
+            localStorage.setItem('animeId', animeId);
+            window.location.href = 'player.html';
+        }
+
+        window.onload = loadAnimeData;
     </script>
 </body>
 </html>
