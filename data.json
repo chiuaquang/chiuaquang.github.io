@@ -1,0 +1,92 @@
+{
+  "animeList": [
+    {
+      "id": 1,
+      "title": "Đa Gian Kim Thế",
+      "altTitle": "多聞今生！",
+      "rating": 9.4,
+      "image": "https://via.placeholder.com/300x450/ff6b6b/ffffff?text=Đa+Gian+Kim+Thế",
+      "views": "514,416",
+      "genre": "Anime bộ",
+      "episodes": {
+        "1": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "2": "https://www.youtube.com/embed/jNQXAC9IVRw",
+        "3": "https://www.youtube.com/embed/kJQP7kiw5Fk",
+        "4": "https://www.youtube.com/embed/9bZkp7q19f0",
+        "5": "https://www.youtube.com/embed/fRh_vgS2dFE",
+        "6": "https://www.youtube.com/embed/2Vv-BfVoq4g",
+        "7": "https://www.youtube.com/embed/CevxZvSJLk8",
+        "8": "https://www.youtube.com/embed/OPf0YbXqDm0"
+      }
+    },
+    {
+      "id": 2,
+      "title": "Hai Mặt Của Tamon",
+      "altTitle": "",
+      "rating": 9.1,
+      "image": "https://via.placeholder.com/300x450/4ecdc4/ffffff?text=Hai+Mặt+Của+Tamon",
+      "views": "1,102,913",
+      "genre": "Anime bộ",
+      "episodes": {
+        "1": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "2": "https://www.youtube.com/embed/jNQXAC9IVRw",
+        "3": "https://www.youtube.com/embed/kJQP7kiw5Fk",
+        "4": "https://www.youtube.com/embed/9bZkp7q19f0",
+        "5": "https://www.youtube.com/embed/fRh_vgS2dFE",
+        "6": "https://www.youtube.com/embed/2Vv-BfVoq4g",
+        "7": "https://www.youtube.com/embed/CevxZvSJLk8",
+        "8": "https://www.youtube.com/embed/OPf0YbXqDm0",
+        "9": "https://www.youtube.com/embed/L_jWHffIx5E",
+        "10": "https://www.youtube.com/embed/Sagg08DrO5U"
+      }
+    },
+    {
+      "id": 3,
+      "title": "【Oshi No Ko】",
+      "altTitle": "Đứa Con Của Thần Tượng",
+      "rating": 7.8,
+      "image": "https://via.placeholder.com/300x450/ffb347/ffffff?text=Oshi+No+Ko",
+      "views": "1,102,372",
+      "genre": "Anime bộ",
+      "episodes": {
+        "1": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "2": "https://www.youtube.com/embed/jNQXAC9IVRw",
+        "3": "https://www.youtube.com/embed/kJQP7kiw5Fk",
+        "4": "https://www.youtube.com/embed/9bZkp7q19f0",
+        "5": "https://www.youtube.com/embed/fRh_vgS2dFE",
+        "6": "https://www.youtube.com/embed/2Vv-BfVoq4g"
+      }
+    },
+    {
+      "id": 4,
+      "title": "Arne no Jikenbo",
+      "altTitle": "",
+      "rating": 6.8,
+      "image": "https://via.placeholder.com/300x450/96ceb4/ffffff?text=Arne+no+Jikenbo",
+      "views": "218,460",
+      "genre": "Anime bộ",
+      "episodes": {
+        "1": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "2": "https://www.youtube.com/embed/jNQXAC9IVRw"
+      }
+    },
+    {
+      "id": 5,
+      "title": "Yuusha Party",
+      "altTitle": "Yuusha Party wo Oidasare...",
+      "rating": 9.7,
+      "image": "https://via.placeholder.com/300x450/ff9999/ffffff?text=Yuusha+Party",
+      "views": "1,102,913",
+      "genre": "Anime bộ",
+      "episodes": {
+        "1": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "2": "https://www.youtube.com/embed/jNQXAC9IVRw",
+        "3": "https://www.youtube.com/embed/kJQP7kiw5Fk",
+        "4": "https://www.youtube.com/embed/9bZkp7q19f0",
+        "5": "https://www.youtube.com/embed/fRh_vgS2dFE",
+        "6": "https://www.youtube.com/embed/2Vv-BfVoq4g",
+        "7": "https://www.youtube.com/embed/CevxZvSJLk8"
+      }
+    }
+  ]
+}
