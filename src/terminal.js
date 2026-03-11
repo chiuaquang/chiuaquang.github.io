@@ -546,7 +546,7 @@
       };
     }
 
-    const ghOwner = "ZiolKen";
+    const ghOwner = "chiuaquang";
     const ghApiUrl = `https://api.github.com/users/${ghOwner}/repos?per_page=100&sort=updated`;
     const ghCacheKey = `gh_deployed_${ghOwner}_v1`;
     const ghCacheTtlMs = 10 * 60 * 1000;
@@ -688,7 +688,7 @@
       desc: "Show about info",
       usage: "about",
       run: async () => {
-        term.println("@ziolken — web terminal.", "term-muted");
+        term.println("@chiuaquang — web terminal.", "term-muted");
         term.println("Try: curl | ping | dig | rdap | sha256 | base64 | jwt | passgen | projects | contact", "term-muted");
       },
     });
@@ -872,13 +872,13 @@
       desc: "Show contact info",
       usage: "contact",
       run: async () => {
-        const tg = makeSafeLink("https://t.me/ZiolKen", "Telegram: @ZiolKen");
-        const em = makeSafeLink("mailto:zknisme@gmail.com", "Email: zknisme@gmail.com");
-        const dc = makeSafeLink("https://discord.com/users/951037699320602674", "Discord: @ziolken");
+        const tg = makeSafeLink("https://t.me/hihihuhus", "Telegram: @hihihuhus");
+        const em = makeSafeLink("mailto:chiuaquang@gmail.com", "Email: chiuaquang@gmail.com");
+        const dc = makeSafeLink("https://discord.com/users/1167813140998791168", "Discord: @quang_ntb");
         term.println("Contact:", "term-muted");
-        if (tg) term.printNode(tg, "term-muted"); else term.println("Telegram: @ZiolKen", "term-muted");
-        if (em) term.printNode(em, "term-muted"); else term.println("Email: zknisme@gmail.com", "term-muted");
-        if (dc) term.printNode(dc, "term-muted"); else term.println("Discord: @ziolken", "term-muted");
+        if (tg) term.printNode(tg, "term-muted"); else term.println("Telegram: @hihihuhus", "term-muted");
+        if (em) term.printNode(em, "term-muted"); else term.println("Email: chiuaquang@gmail.com", "term-muted");
+        if (dc) term.printNode(dc, "term-muted"); else term.println("Discord: @quang_ntb", "term-muted");
       },
     });
 
