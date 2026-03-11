@@ -1,707 +1,291 @@
 <!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnimeHay - Xem anime Vietsub</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-        }
+<html lang="en" translate="no" color-scheme="dark">
+  
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta content="ie=edge" http-equiv="X-UA-Compatible" />
+    <title>@chiuquang ~ portfolio</title>
+  
+    <link rel="icon" type="image/png" href="favicon.ico" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <meta name="theme-color" content="#000000" />
+  
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-java.min.js"></script>
+  
+    <link rel="manifest" href="assets/manifest.webmanifest" />
+    <link rel="stylesheet" href="style.css" />
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/logo.jpeg" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/logo.jpeg" />
+  
+    <meta name="description" content="Modern, Feature-rich Personal Portfolio / Link-in-Bio" />
+    <meta name="author" content="@chiuquang ~ portfolio" />
+    <meta property="og:title" content="@chiuquang ~ portfolio" />
+    <meta property="og:description" content="Modern, Feature-rich Personal Portfolio / Link-in-Bio" />
+    <meta property="og:image" content="https://chiuaquang.pages.dev/assets/sicae.gif" />
+    <meta property="og:image:secure_url" content="https://chiuaquang.pages.dev/assets/sicae.gif" />
+    <meta property="og:image:type" content="image/gif" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://chiuaquang.pages.dev" />
+    <meta property="og:site_name" content="chiuaquang.pages.dev" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="@chiuaquang ~ portfolio" />
+    <meta name="twitter:description" content="Modern, Feature-rich Personal Portfolio / Link-in-Bio" />
+    <meta name="twitter:image" content="https://chiuaquang.pages.dev/assets/sicae.gif" />
+    <meta name="twitter:site" content="https://chiuaquang.pages.dev" />
+    <meta name="twitter:creator" content="@chiuaquang" />
+    <meta name="apple-mobile-web-app-title" content="@chiuaquang ~ portfolio" />
+    <meta name="mobile-web-app-title" content="@chiuaquang ~ portfolio" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+  </head>
 
-        body {
-            background-color: #0a0b0f;
-            color: #fff;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #1a1c24, #0f1117);
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            border-bottom: 1px solid #2a2c35;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .menu-icon {
-            font-size: 24px;
-            color: #ff6b6b;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            background: #2a2c35;
-        }
-
-        .logo {
-            font-size: 22px;
-            font-weight: bold;
-            color: #ff6b6b;
-            text-decoration: none;
-        }
-
-        .search-box {
-            flex: 1;
-            max-width: 400px;
-            margin-left: auto;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 25px;
-            background: #2a2c35;
-            color: #fff;
-            outline: none;
-            font-size: 14px;
-        }
-
-        .search-box input::placeholder {
-            color: #6b6f7c;
-        }
-
-        .sidebar {
-            position: fixed;
-            left: -280px;
-            top: 0;
-            width: 280px;
-            height: 100vh;
-            background: #1a1c24;
-            z-index: 1000;
-            transition: left 0.3s ease;
-            border-right: 1px solid #2a2c35;
-        }
-
-        .sidebar.active {
-            left: 0;
-        }
-
-        .sidebar-overlay {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 999;
-            display: none;
-        }
-
-        .sidebar-overlay.active {
-            display: block;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            border-bottom: 1px solid #2a2c35;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .sidebar-header h3 {
-            color: #ff6b6b;
-            font-size: 18px;
-        }
-
-        .close-sidebar {
-            font-size: 24px;
-            color: #8b8f9c;
-            cursor: pointer;
-        }
-
-        .sidebar-menu {
-            padding: 20px;
-            list-style: none;
-        }
-
-        .sidebar-menu li {
-            margin-bottom: 10px;
-        }
-
-        .sidebar-menu a {
-            display: block;
-            padding: 12px 15px;
-            color: #b4b9d6;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: 0.3s;
-            background: #2a2c35;
-        }
-
-        .sidebar-menu a:hover {
-            background: #ff6b6b;
-            color: #fff;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 15px;
-        }
-
-        .filters {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            overflow-x: auto;
-            padding: 5px 0;
-            scrollbar-width: none;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .filters::-webkit-scrollbar {
-            display: none;
-        }
-
-        .filter-btn {
-            padding: 10px 25px;
-            border: 1px solid #2a2c35;
-            background: transparent;
-            color: #b4b9d6;
-            border-radius: 30px;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: 0.3s;
-        }
-
-        .filter-btn:hover,
-        .filter-btn.active {
-            background: #ff6b6b;
-            color: #fff;
-            border-color: #ff6b6b;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255,107,107,0.3);
-        }
-
-        .anime-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .anime-card {
-            background: #1a1c24;
-            border-radius: 16px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid #2a2c35;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .anime-card:hover {
-            transform: translateY(-8px);
-            border-color: #ff6b6b;
-            box-shadow: 0 10px 25px rgba(255,107,107,0.2);
-        }
-
-        .anime-poster {
-            position: relative;
-            aspect-ratio: 2/3;
-            overflow: hidden;
-        }
-
-        .anime-poster img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .anime-card:hover .anime-poster img {
-            transform: scale(1.1);
-        }
-
-        .anime-overlay {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            right: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 2;
-        }
-
-        .rating {
-            background: rgba(0,0,0,0.85);
-            padding: 6px 12px;
-            border-radius: 25px;
-            font-size: 13px;
-            font-weight: bold;
-            color: #ffd700;
-            border: 1px solid #ffd70040;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        }
-
-        .episode {
-            background: #ff6b6b;
-            padding: 6px 12px;
-            border-radius: 25px;
-            font-size: 12px;
-            font-weight: bold;
-            box-shadow: 0 2px 8px rgba(255,107,107,0.4);
-            border: 1px solid #ffffff30;
-        }
-
-        .anime-info {
-            padding: 15px;
-        }
-
-        .anime-title {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: #fff;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .anime-subtitle {
-            font-size: 12px;
-            color: #ff6b6b;
-            margin-bottom: 5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-style: italic;
-        }
-
-        .anime-genre {
-            font-size: 11px;
-            color: #8b8f9c;
-            display: inline-block;
-            padding: 3px 10px;
-            background: #2a2c35;
-            border-radius: 20px;
-        }
-
-        /* Phân trang */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            margin: 40px 0 20px;
-            flex-wrap: wrap;
-        }
-
-        .page-btn {
-            min-width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 12px;
-            background: #1a1c24;
-            border: 1px solid #2a2c35;
-            border-radius: 10px;
-            color: #b4b9d6;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .page-btn:hover {
-            background: #2a2c35;
-            color: #fff;
-            border-color: #ff6b6b;
-            transform: translateY(-2px);
-        }
-
-        .page-btn.active {
-            background: #ff6b6b;
-            color: #fff;
-            border-color: #ff6b6b;
-            box-shadow: 0 5px 15px rgba(255,107,107,0.3);
-        }
-
-        .page-btn.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        .page-dots {
-            color: #b4b9d6;
-            padding: 0 5px;
-        }
-
-        .page-info {
-            color: #8b8f9c;
-            font-size: 14px;
-            margin-left: 15px;
-            padding-left: 15px;
-            border-left: 1px solid #2a2c35;
-        }
-
-        .loading {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 60px;
-            color: #8b8f9c;
-            font-size: 16px;
-        }
-
-        .loading::after {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 50px;
-            margin: 25px auto;
-            border: 4px solid #2a2c35;
-            border-top-color: #ff6b6b;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .admin-link {
-            position: fixed;
-            bottom: 15px;
-            right: 15px;
-            opacity: 0.15;
-            font-size: 12px;
-            z-index: 999;
-            transition: opacity 0.3s;
-        }
-        
-        .admin-link:hover {
-            opacity: 0.8;
-        }
-        
-        .admin-link a {
-            color: #fff;
-            text-decoration: none;
-            background: #2a2c35;
-            padding: 8px 12px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        @media (max-width: 768px) {
-            .header {
-                padding: 10px 15px;
-            }
-            
-            .logo {
-                font-size: 18px;
-            }
-            
-            .search-box {
-                max-width: 200px;
-            }
-            
-            .anime-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-                gap: 15px;
-            }
-            
-            .filters {
-                gap: 8px;
-            }
-            
-            .filter-btn {
-                padding: 8px 16px;
-                font-size: 13px;
-            }
-            
-            .pagination {
-                gap: 5px;
-            }
-            
-            .page-btn {
-                min-width: 35px;
-                height: 35px;
-                font-size: 13px;
-                padding: 0 8px;
-            }
-            
-            .page-info {
-                display: none;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h3>🍜 AnimeHay</h3>
-            <span class="close-sidebar" onclick="toggleSidebar()">✕</span>
-        </div>
-        <ul class="sidebar-menu">
-            <li><a href="#" onclick="filterAnime('all'); toggleSidebar()">🏠 Tất cả</a></li>
-            <li><a href="#" onclick="filterAnime('Anime mới'); toggleSidebar()">🆕 Anime mới</a></li>
-            <li><a href="#" onclick="filterAnime('Anime bộ'); toggleSidebar()">📺 Anime bộ</a></li>
-            <li><a href="#" onclick="filterAnime('Anime lẻ'); toggleSidebar()">🎬 Anime lẻ</a></li>
-            <li><a href="#" onclick="filterAnime('HH Trung Quốc'); toggleSidebar()">🇨🇳 HH Trung Quốc</a></li>
-        </ul>
-    </div>
-
-    <header class="header">
-        <div class="menu-icon" onclick="toggleSidebar()">☰</div>
-        <a href="#" class="logo">AnimeHay</a>
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="🔍 Tìm anime..." onkeyup="searchAnime()">
-        </div>
-    </header>
-
+  <body autocomplete="off" spellcheck="false">
+    <div id="snow-screen" aria-hidden="true"></div>
     <div class="container">
-        <div class="filters" id="filterContainer">
-            <button class="filter-btn active" onclick="filterAnime('all')">Tất cả</button>
-            <button class="filter-btn" onclick="filterAnime('Anime mới')">🆕 Anime mới</button>
-            <button class="filter-btn" onclick="filterAnime('Anime bộ')">📺 Anime bộ</button>
-            <button class="filter-btn" onclick="filterAnime('Anime lẻ')">🎬 Anime lẻ</button>
-            <button class="filter-btn" onclick="filterAnime('HH Trung Quốc')">🇨🇳 HH Trung Quốc</button>
+      <div class="main-grid" style="margin-top:20px">
+        <div>
+          
+          <div class="profile-card" id="profile">
+            <img src="res/banner.png" draggable="false" id="profile-banner" />
+
+            <div class="profile-meta-row">
+              <div class="meta-badge" id="local-time">
+                <svg viewBox="0 0 24 24" fill="none" height="24" width="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="clock-icon">
+                  <path d="M12 6v6l4 2" />
+                  <circle cx="12" cy="12" r="10" />
+                </svg>
+                <span id="time-text"></span>
+                <img src="res/666.gif" draggable="false" id="profile-gif" />
+              </div>
+            </div>
+
+            <div id="time-diff-display"></div>
+
+            <div class="avatar-wrapper">
+              <img
+                src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M21%2019V5C21%203.89543%2020.1046%203%2019%203H5C3.89543%203%203%203.89543%203%205V19C3%2020.1046%203.89543%2021%205%2021H19C20.1046%2021%2021%2020.1046%2021%2019Z%22%20stroke%3D%22%238b949e%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M8.5%2010C9.32843%2010%2010%209.32843%2010%208.5C10%207.67157%209.32843%207%208.5%207C7.67157%207%207%207.67157%207%208.5C7%209.32843%207.67157%2010%208.5%2010Z%22%20fill%3D%22%238b949e%22/%3E%3Cpath%20d%3D%22M21%2015L16%2010L5%2021%22%20stroke%3D%22%238b949e%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E"
+                draggable="false"
+                class="avatar"
+                id="avatar"
+              />
+              <img src="" draggable="false" class="avatar-decoration" id="avatar-decoration" />
+              <img src="" draggable="false" class="status-indicator" id="status-icon" />
+            </div>
+
+            <div class="username-container">
+              <div class="display-name" id="display-name"><span class="display-name-inner"></span></div>
+            </div>
+
+            <div class="username-line">
+              <div class="username-flex">
+                <span class="at-username" id="at-username"></span>
+                <div id="guild-badge" style="display: none">
+                  <img src="" id="guild-badge-icon" />
+                  <span id="guild-badge-tag"></span>
+                </div>
+                <div class="devices" id="devices"></div>
+              </div>
+            </div>
+
+            <div class="custom-status" id="custom-status"></div>
+          </div>
         </div>
 
-        <div class="anime-grid" id="animeGrid">
-            <div class="loading">Đang tải dữ liệu...</div>
+        <div>
+          <div class="music-card" id="music-card">
+            <div class="music-cover">
+              <img id="music-cover-img" draggable="false" alt="" />
+              <button class="music-vol" id="music-mute" type="button" aria-label="Mute">
+                <span class="mvb" style="--i:0"></span>
+                <span class="mvb" style="--i:1"></span>
+                <span class="mvb" style="--i:2"></span>
+                <span class="mvb" style="--i:3"></span>
+                <span class="mvb" style="--i:4"></span>
+                <span class="mvb" style="--i:5"></span>
+              </button>
+            </div>
+          
+            <div class="music-meta">
+              <div class="music-title" id="music-title"></div>
+              <div class="music-artist" id="music-artist"></div>
+          
+              <div class="music-progress" id="music-progress" role="slider" aria-label="Seek" tabindex="0">
+                <div class="music-progress-fill" id="music-progress-fill"></div>
+                <div class="music-progress-knob" id="music-progress-knob"></div>
+              </div>
+          
+              <div class="music-controls">
+                <button class="music-btn" id="music-prev" type="button" aria-label="Previous">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path fill="rgb(255, 255, 255)" d="M491 100.8C478.1 93.8 462.3 94.5 450 102.6L192 272.1L192 128C192 110.3 177.7 96 160 96C142.3 96 128 110.3 128 128L128 512C128 529.7 142.3 544 160 544C177.7 544 192 529.7 192 512L192 367.9L450 537.5C462.3 545.6 478 546.3 491 539.3C504 532.3 512 518.8 512 504.1L512 136.1C512 121.4 503.9 107.9 491 100.9z"/></svg>
+                </button>
+          
+                <button class="music-btn music-btn-main" id="music-play" type="button" aria-label="Play/Pause">
+                  <span class="icon-play">
+                    <svg stroke="rgb(0, 0, 0)" fill="rgb(0, 0, 0)" stroke-width="0" viewBox="0 0 448 512" style="margin-left:1px" height="12" width="12" xmlns="http://www.w3.org/2000/svg"><path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"></path></svg>
+                  </span>
+                  <span class="icon-pause">
+                    <svg stroke="rgb(0, 0, 0)" fill="rgb(0, 0, 0)" stroke-width="0" viewBox="0 0 448 512" height="12" width="12" xmlns="http://www.w3.org/2000/svg"><path d="M144 479H48c-26.5 0-48-21.5-48-48V79c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v352c0 26.5-21.5 48-48 48zm304-48V79c0-26.5-21.5-48-48-48h-96c-26.5 0-48 21.5-48 48v352c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48z"></path></svg>
+                  </span>
+                </button>
+          
+                <button class="music-btn" id="music-next" type="button" aria-label="Next">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path fill="rgb(255, 255, 255)" d="M149 100.8C161.9 93.8 177.7 94.5 190 102.6L448 272.1L448 128C448 110.3 462.3 96 480 96C497.7 96 512 110.3 512 128L512 512C512 529.7 497.7 544 480 544C462.3 544 448 529.7 448 512L448 367.9L190 537.5C177.7 545.6 162 546.3 149 539.3C136 532.3 128 518.7 128 504L128 136C128 121.3 136.1 107.8 149 100.8z"/></svg>
+                </button>
+              </div>
+            </div>
+          
+            <audio id="music-audio" preload="metadata"></audio>
+          </div>
         </div>
+      </div>
 
-        <!-- Phân trang -->
-        <div class="pagination" id="pagination"></div>
-    </div>
+      <div class="bottom-grid">
+        <div class="stack-col">
+        <div class="section-card" id="about-me-card">
+          <div class="section-title-container">
+            <div class="card-title">About Me</div>
+          </div>
 
-    <!-- Link ẩn vào trang quản lý -->
-    <div class="admin-link">
-        <a href="quanly.html" target="_blank">
-            <span>⚙️</span> Admin
-        </a>
-    </div>
+          <div class="about-me-content">
+            <div class="about-section">
+              <h4>Who am I?</h4>
+              <p>i'm Chiuquang - just a random guy on internet from <span id="cypher-text"></span></p>
+            </div>
 
-    <script>
-        // URL data.json trên GitHub của bạn
-        const GITHUB_JSON_URL = 'https://raw.githubusercontent.com/chiuaquang/chiuaquang.github.io/refs/heads/main/data.json';
+            <div class="about-section">
+              <h4>My Interests</h4>
+              <p>
+                i <span class="love-text">love</span> gaming. i also enjoy avn, coding, car, and wasting time on the internet.
+              </p>
+              <div id="global-tooltip-container"></div>
+            </div>
+
+            <div class="about-section">
+              <h4>Social Links</h4>
+              <div class="social-links">
+                <a class="social-btn" href="https://t.me/hihihuhus" target="_blank" rel="noreferrer" aria-label="Telegram" title="Telegram">
+                  <img alt="Telegram" src="https://cdn.simpleicons.org/telegram/8b949e" />
+                </a>
+
+                <a class="social-btn" href="https://youtube.com/@kiyu-uq8xt?si=9_em81JioqEoNoTm" target="_blank" rel="noreferrer" aria-label="YouTube" title="YouTube">
+                  <img alt="YouTube" src="https://cdn.simpleicons.org/youtube/8b949e" />
+                </a>
+            
+                <a class="social-btn" href="https://github.com/chiuaquang" target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub">
+                  <img alt="GitHub" src="https://cdn.simpleicons.org/github/8b949e" />
+                </a>
+            
+                <a class="social-btn" href="mailto:chiuaquang@gmail.com" aria-label="Email" title="Email">
+                  <img alt="Email" src="https://cdn.simpleicons.org/gmail/8b949e" />
+                </a>
+            
+                <a class="social-btn" href="https://patreon.com/avadex" target="_blank" rel="noreferrer" aria-label="Patreon" title="Patreon">
+                  <img alt="Patreon" src="https://cdn.simpleicons.org/patreon/8b949e" />
+                </a>
+            
+                <a class="social-btn" href="https://sociabuzz.com/chiuaquang/tribe" target="_blank" rel="noreferrer" aria-label="Buy Me a Coffee" title="Buy Me a Coffee">
+                  <img alt="Buy Me a Coffee" src="https://cdn.simpleicons.org/buymeacoffee/8b949e" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <img src="res/sit4.png" draggable="false" class="about-me-image" />
+        </div>
         
-        let animeData = [];
-        let currentFilter = 'all';
-        let currentPage = 1;
-        const ITEMS_PER_PAGE = 20; // Số anime mỗi trang
+          <div class="section-card" id="projects-card">
+            <div class="section-title-container">
+              <div class="card-title">Featured Projects</div>
+            </div>
+            <div class="projects-grid" id="projects-grid"></div>
+          </div>
+        </div>
 
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('sidebarOverlay').classList.toggle('active');
-        }
+        <div class="stack-col">
+          
+          <div class="layt">
+            <div class="lay-container">
+              <img src="res/lay.png" draggable="false" id="banner-img" />
+            </div>
+  
+            <div class="terminal">
+              <div class="terminal-header">
+                <span class="term-dot red"></span>
+                <span class="term-dot yellow"></span>
+                <span class="term-dot green"></span>
+                <span class="term-title" id="term-title">chiuquang@portfolio:~#</span>
+              </div>
 
-        async function loadAnimeData() {
-            try {
-                const response = await fetch(GITHUB_JSON_URL);
-                if (!response.ok) throw new Error('Không thể tải dữ liệu');
-                const data = await response.json();
-                animeData = data.animeList;
-                
-                // Sắp xếp anime theo ID giảm dần (mới nhất lên đầu)
-                animeData.sort((a, b) => b.id - a.id);
-                
-                displayAnime(animeData);
-            } catch (error) {
-                console.error('Lỗi:', error);
-                document.getElementById('animeGrid').innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #ff6b6b;">
-                        <div style="font-size: 48px; margin-bottom: 20px;">😵</div>
-                        <div style="font-size: 20px; margin-bottom: 10px;">Không thể tải dữ liệu</div>
-                        <small style="color: #8b8f9c;">Vui lòng thử lại sau</small>
-                    </div>
-                `;
-            }
-        }
+              <div class="terminal-body" id="terminal-out"></div>
 
-        function displayAnime(animeList) {
-            // Lưu toàn bộ danh sách đã lọc
-            window.filteredAnime = animeList;
-            
-            // Tính toán phân trang
-            const totalItems = animeList.length;
-            const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
-            
-            // Đảm bảo currentPage không vượt quá totalPages
-            if (currentPage > totalPages) {
-                currentPage = totalPages || 1;
-            }
-            
-            // Lấy anime cho trang hiện tại
-            const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-            const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
-            const currentAnime = animeList.slice(startIndex, endIndex);
-            
-            // Hiển thị grid anime
-            const grid = document.getElementById('animeGrid');
-            
-            if (!animeList || animeList.length === 0) {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #8b8f9c;">Không có anime nào</div>';
-                document.getElementById('pagination').innerHTML = '';
-                return;
-            }
+              <div class="terminal-input-row">
+                <span class="terminal-prompt" id="terminal-prompt">root@chiuquang: $</span>
+                <input class="terminal-input" id="terminal-in" autocomplete="off" spellcheck="false" />
+              </div>
+            </div>
+          </div>
 
-            grid.innerHTML = currentAnime.map(anime => {
-                const episodeCount = Object.keys(anime.episodes || {}).length;
-                const latestEpisode = episodeCount;
-                
-                return `
-                    <div class="anime-card" onclick="goToAnime(${anime.id})">
-                        <div class="anime-poster">
-                            <img src="${anime.image}" alt="${anime.title}" onerror="this.src='https://via.placeholder.com/300x450/2a2c35/ffffff?text=No+Image'">
-                            <div class="anime-overlay">
-                                <span class="rating">★ ${anime.rating}</span>
-                                <span class="episode">TẬP ${latestEpisode}</span>
-                            </div>
-                        </div>
-                        <div class="anime-info">
-                            <div class="anime-title">${anime.title}</div>
-                            ${anime.altTitle ? `<div class="anime-subtitle">${anime.altTitle}</div>` : ''}
-                            <div class="anime-genre">${anime.genre}</div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            
-            // Hiển thị phân trang
-            displayPagination(totalPages, totalItems);
-        }
+          <div class="section-card" id="contact-card">
+            <div class="section-title-container">
+              <div class="card-title">Contact</div>
+            </div>
 
-        function displayPagination(totalPages, totalItems) {
-            const pagination = document.getElementById('pagination');
-            
-            if (totalPages <= 1) {
-                pagination.innerHTML = '';
-                return;
-            }
-            
-            let html = '';
-            
-            // Nút Trang đầu
-            html += `<button class="page-btn ${currentPage === 1 ? 'disabled' : ''}" onclick="changePage(1)" ${currentPage === 1 ? 'disabled' : ''}>««</button>`;
-            
-            // Nút Trang trước
-            html += `<button class="page-btn ${currentPage === 1 ? 'disabled' : ''}" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>«</button>`;
-            
-            // Hiển thị các số trang
-            const maxVisiblePages = 5; // Số trang hiển thị tối đa
-            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-            
-            if (endPage - startPage + 1 < maxVisiblePages) {
-                startPage = Math.max(1, endPage - maxVisiblePages + 1);
-            }
-            
-            // Thêm dấu ... nếu cần
-            if (startPage > 1) {
-                html += `<span class="page-dots">...</span>`;
-            }
-            
-            for (let i = startPage; i <= endPage; i++) {
-                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
-            }
-            
-            if (endPage < totalPages) {
-                html += `<span class="page-dots">...</span>`;
-            }
-            
-            // Nút Trang sau
-            html += `<button class="page-btn ${currentPage === totalPages ? 'disabled' : ''}" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>»</button>`;
-            
-            // Nút Trang cuối
-            html += `<button class="page-btn ${currentPage === totalPages ? 'disabled' : ''}" onclick="changePage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>»»</button>`;
-            
-            // Thông tin tổng số
-            html += `<span class="page-info">Trang ${currentPage} / ${totalPages} (${totalItems} anime)</span>`;
-            
-            pagination.innerHTML = html;
-        }
+            <div class="contact-list" id="contact-list">
+            <a class="contact-item" href="https://t.me/hihihuhus" target="_blank" rel="noreferrer">
+              <span class="contact-left">
+                <img alt="" src="https://cdn.simpleicons.org/telegram/8b949e" />
+                <span>Telegram</span>
+              </span>
+              <span class="contact-right">@hihihuhus →</span>
+            </a>
 
-        function changePage(page) {
-            const totalPages = Math.ceil(window.filteredAnime.length / ITEMS_PER_PAGE);
-            if (page < 1 || page > totalPages) return;
-            
-            currentPage = page;
-            displayAnime(window.filteredAnime);
-            
-            // Cuộc lên đầu grid
-            document.querySelector('.anime-grid').scrollIntoView({ behavior: 'smooth' });
-        }
+            <a class="contact-item" href="mailto:chiuaquang@gmail.com">
+              <span class="contact-left">
+                <img alt="" src="https://cdn.simpleicons.org/gmail/8b949e" />
+                <span>Email</span>
+              </span>
+              <span class="contact-right">chiuaquang@gmail.com →</span>
+            </a>
 
-        function filterAnime(genre) {
-            currentFilter = genre;
-            currentPage = 1; // Reset về trang đầu khi lọc
-            
-            // Cập nhật active state cho các nút filter
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (genre === 'all' && btn.textContent.includes('Tất cả')) {
-                    btn.classList.add('active');
-                } else if (btn.textContent.includes(genre)) {
-                    btn.classList.add('active');
-                }
-            });
+            <a class="contact-item" href="https://discord.com/users/1167813140998791168" target="_blank" rel="noreferrer">
+              <span class="contact-left">
+                <img alt="" src="https://cdn.simpleicons.org/discord/8b949e" />
+                <span>Discord</span>
+              </span>
+              <span class="contact-right">@quang_ntb →</span>
+            </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-            let filteredAnime = [];
-            
-            if (genre === 'all') {
-                filteredAnime = [...animeData];
-            } else {
-                filteredAnime = animeData.filter(anime => anime.genre === genre);
-            }
-            
-            // Giữ nguyên thứ tự sắp xếp (mới nhất lên đầu)
-            displayAnime(filteredAnime);
-        }
+    <noscript>
+      <div class="no-js-overlay">
+        <div class="no-js-message">
+          <h1>JavaScript is Required</h1>
+          <p>This website needs JavaScript to function correctly.</p>
+          <p>Please enable JavaScript in your browser settings and reload the page.</p>
+        </div>
+      </div>
+    </noscript>
 
-        function searchAnime() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-            currentPage = 1; // Reset về trang đầu khi tìm kiếm
-            
-            if (!searchTerm) {
-                filterAnime(currentFilter);
-                return;
-            }
-
-            const filtered = animeData.filter(anime => 
-                anime.title.toLowerCase().includes(searchTerm) ||
-                (anime.altTitle && anime.altTitle.toLowerCase().includes(searchTerm)) ||
-                (anime.genre && anime.genre.toLowerCase().includes(searchTerm))
-            );
-            
-            // Giữ nguyên thứ tự sắp xếp
-            displayAnime(filtered);
-        }
-
-        function goToAnime(animeId) {
-            // Lưu toàn bộ dữ liệu vào localStorage để trang player có thể dùng
-            localStorage.setItem('animeData', JSON.stringify(animeData));
-            localStorage.setItem('animeId', animeId);
-            window.location.href = 'player.html';
-        }
-
-        // Khởi tạo
-        window.onload = loadAnimeData;
-    </script>
-</body>
+    <script src="app.js"></script>
+    <script src="src/script.js"></script>
+    <script src="src/terminal.js"></script>
+    <script src="src/music.js"></script>
+    <script src="src/cursor.js"></script>
+    <script src="src/snowflake.js"></script>
+  </body>
+  
 </html>
